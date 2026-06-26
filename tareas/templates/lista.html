@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mis Tareas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 70%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        .completada {
+            text-decoration: line-through;
+            color: #888;
+        }
+        .acciones {
+            margin-left: auto;
+        }
+        .acciones a {
+            margin-left: 10px;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+        .completar {
+            background: #28a745;
+            color: white;
+        }
+        .eliminar {
+            background: #dc3545;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 Mis Tareas</h1>
+        
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="titulo" placeholder="Escribe una tarea..." required>
+            <button type="submit">Agregar</button>
+        </form>
+
+        <ul>
+            {% for tarea in tareas %}
+            <li>
+                <span class="{% if tarea.completada %}completada{% endif %}">
+                    {{ tarea.titulo }}
+                </span>
+                <div class="acciones">
+                    <a href="{% url 'completar' tarea.id %}" class="completar">
+                        {% if tarea.completada %}✔{% else %}✓{% endif %}
+                    </a>
+                    <a href="{% url 'eliminar' tarea.id %}" class="eliminar">✕</a>
+                </div>
+            </li>
+            {% empty %}
+            <li style="color: #999; text-align: center;">No hay tareas. ¡Agrega una!</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
