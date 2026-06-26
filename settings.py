@@ -10,18 +10,17 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
-# misitio/settings.py
 import os
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent
 
 # ============================================
 # SEGURIDAD
 # ============================================
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-tu-clave-local')
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
-ALLOWED_HOSTS = ['*']  # Temporal para pruebas
+SECRET_KEY = 'django-insecure-tu-clave-secreta'
+DEBUG = False
+ALLOWED_HOSTS = ['*']
 
 # ============================================
 # APPS
@@ -33,7 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tareas',
+    'tareas',  # Tu app
 ]
 
 # ============================================
@@ -50,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'misitio.urls'
+ROOT_URLCONF = 'urls'  # ✅ urls.py está en la raíz
 
 TEMPLATES = [
     {
@@ -68,10 +67,10 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'misitio.wsgi.application'
+WSGI_APPLICATION = 'wsgi.application'  # ✅ wsgi.py está en la raíz
 
 # ============================================
-# BASE DE DATOS - USAR SQLITE SIEMPRE
+# BASE DE DATOS - SQLITE
 # ============================================
 DATABASES = {
     'default': {
@@ -81,7 +80,7 @@ DATABASES = {
 }
 
 # ============================================
-# ESTÁTICOS
+# ARCHIVOS ESTÁTICOS
 # ============================================
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -90,4 +89,8 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # ============================================
 # OTRAS CONFIGURACIONES
 # ============================================
+LANGUAGE_CODE = 'es-es'
+TIME_ZONE = 'America/Mexico_City'
+USE_I18N = True
+USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
